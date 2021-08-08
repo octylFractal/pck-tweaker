@@ -1,4 +1,4 @@
-//#![deny(warnings)]
+#![deny(warnings)]
 
 use std::fs::OpenOptions;
 use std::path::PathBuf;
@@ -111,10 +111,10 @@ fn main() -> Result<()> {
         }
     }
 
-    let tmp_pck_file = pck_file
-        .parent()
-        .unwrap()
-        .join(format!("{}.tmp", pck_file.file_name().unwrap().to_string_lossy()));
+    let tmp_pck_file = pck_file.parent().unwrap().join(format!(
+        "{}.tmp",
+        pck_file.file_name().unwrap().to_string_lossy()
+    ));
     OpenOptions::new()
         .write(true)
         .create_new(true)

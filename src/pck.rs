@@ -1,6 +1,6 @@
-use binrw::io::{Read, Seek};
-use binrw::{derive_binread, BinRead, BinResult, ReadOptions, PosValue};
 use crate::binnedwrite::Writeable;
+use binrw::io::{Read, Seek};
+use binrw::{derive_binread, BinRead, BinResult, PosValue, ReadOptions};
 use std::io::Write;
 
 pub const MAGIC: &[u8; 4] = b"GDPC";
