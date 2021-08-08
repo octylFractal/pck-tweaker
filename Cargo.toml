@@ -1,0 +1,24 @@
+[package]
+name = "pck-tweaker"
+description = "Allows modification of .pck files"
+keywords = ["godot"]
+categories = ["command-line-utilities"]
+version = "0.1.0"
+authors = ["Octavia Togami <octavia.togami@gmail.com>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+repository = "https://github.com/octylFractal/pck-tweaker"
+edition = "2018"
+
+[dependencies]
+color-eyre = "0.5"
+structopt = "0.3"
+md-5 = "0.9"
+linked-hash-map = "0.5"
+
+[dependencies.binrw]
+version = "0.4"
+features = ["std"]
+
+[profile.release]
+debug = true
