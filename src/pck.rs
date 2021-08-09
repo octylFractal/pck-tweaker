@@ -1,7 +1,8 @@
-use crate::binnedwrite::Writeable;
-use binrw::io::{Read, Seek};
-use binrw::{derive_binread, BinRead, BinResult, PosValue, ReadOptions};
 use std::io::Write;
+
+use binrw::{derive_binread, BinRead, PosValue};
+
+use crate::binnedwrite::Writeable;
 
 pub const MAGIC: &[u8; 4] = b"GDPC";
 
@@ -44,24 +45,17 @@ impl Writeable for GodotVersion {
 pub struct PckEntry {
     #[br(temp)]
     name_len: u32,
-    #[br(args(name_len), parse_with = parse_utf8_string)]
+    // Godot encodes with some extra zero bytes sometimes. I'm not really sure why.
+    #[br(
+        count = name_len,
+        map = |bytes: Vec<u8>| String::from_utf8_lossy(&bytes)
+                                .trim_end_matches('\0')
+                                .to_owned()
+    )]
     pub name: String,
     pub offset: PosValue<u64>,
     pub size: u64,
     pub md5: [u8; 16],
-}
-
-fn parse_utf8_string<R: Read + Seek>(
-    reader: &mut R,
-    _: &ReadOptions,
-    (count,): (u32,),
-) -> BinResult<String> {
-    let mut bytes = Vec::with_capacity(count as usize);
-    reader.take(count as u64).read_to_end(&mut bytes)?;
-    // Godot encodes with some extra zero bytes sometimes. I'm not really sure why.
-    Ok(String::from_utf8_lossy(&bytes)
-        .trim_end_matches('\0')
-        .to_owned())
 }
 
 impl PckEntry {

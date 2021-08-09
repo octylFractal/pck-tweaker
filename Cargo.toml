@@ -17,7 +17,7 @@ md-5 = "0.9"
 linked-hash-map = "0.5"
 
 [dependencies.binrw]
-version = "0.4"
+version = "0.5"
 features = ["std"]
 
 [profile.release]
